@@ -9,18 +9,22 @@ namespace IdentityPractice.Repository
 {
     public class AccountRepository : IAccountRepository
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public AccountRepository(UserManager<IdentityUser> userManager)
+        public AccountRepository(UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
         }
         public async Task<IdentityResult> CreateAsync(SignUpUserModel model)
         {
-            var user = new IdentityUser()
+            var user = new ApplicationUser()
             {
                 Email = model.Email,
+                FirstName=model.FirstName,
+                LastName=model.LastName,
                 UserName = model.Email,
+                BirthDate=model.BirthDate
+               
 
 
             };
