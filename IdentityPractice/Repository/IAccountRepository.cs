@@ -9,5 +9,6 @@ namespace IdentityPractice.Repository
         Task<IdentityResult> CreateAsync(SignUpUserModel userModel);
         Task<SignInResult> PasswordSignInAsync(SignInModel model);
         Task SignOut();
+        Task<IdentityResult> ChangePassword(ChangePassword model);
     }
 }

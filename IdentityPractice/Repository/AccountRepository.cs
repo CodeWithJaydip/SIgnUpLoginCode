@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using IdentityPractice.Models;
+using IdentityPractice.Services;
 using Microsoft.AspNetCore.Identity;
 
 namespace IdentityPractice.Repository
@@ -11,11 +12,13 @@ namespace IdentityPractice.Repository
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IUserService _service;
 
-        public AccountRepository(UserManager<ApplicationUser> userManager,SignInManager<ApplicationUser> signInManager)
+        public AccountRepository(UserManager<ApplicationUser> userManager,SignInManager<ApplicationUser> signInManager,IUserService service)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _service = service;
         }
         public async Task<IdentityResult> CreateAsync(SignUpUserModel model)
         {
@@ -43,6 +46,12 @@ namespace IdentityPractice.Repository
         public async Task SignOut()
         {
             await _signInManager.SignOutAsync();
+        }
+        public async Task<IdentityResult> ChangePassword(ChangePassword model)
+        {
+            var UserId = _service.GetUserId();
+            var user = await _userManager.FindByIdAsync(UserId);
+          return await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
         }
     }
 }

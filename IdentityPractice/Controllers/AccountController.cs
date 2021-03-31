@@ -64,5 +64,31 @@ namespace IdentityPractice.Controllers
             await _accountRepository.SignOut();
             return RedirectToAction("Index", "Home");
         }
+
+        public  IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePassword(ChangePassword model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _accountRepository.ChangePassword(model);
+                if (result.Succeeded)
+                {
+                    ViewBag.IsSuccess = true;
+                    ModelState.Clear();
+                    return View();
+                }
+                foreach(var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description); 
+                }
+            }
+            return View(model);
+        }
     }
 }
