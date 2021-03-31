@@ -38,5 +38,25 @@ namespace IdentityPractice.Controllers
             }
             return View();
         }
+
+        public IActionResult Login()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(SignInModel model)
+        {
+            if (ModelState.IsValid)
+            {
+              var result= await _accountRepository.PasswordSignInAsync(model);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                ModelState.AddModelError("", "Invalid Credential");
+            }
+            return View(model);
+        }
     }
 }
