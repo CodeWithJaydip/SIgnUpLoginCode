@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using IdentityPractice.Data;
+using IdentityPractice.Helpers;
 using IdentityPractice.Models;
 using IdentityPractice.Repository;
 using Microsoft.AspNetCore.Builder;
@@ -37,6 +38,7 @@ namespace IdentityPractice
 
             services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddScoped<IAccountRepository, AccountRepository>();
+            services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationUserClaimsPrincipalFactory>();
             services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequiredLength = 8;
