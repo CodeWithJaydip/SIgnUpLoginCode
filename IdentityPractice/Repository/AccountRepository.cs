@@ -39,5 +39,10 @@ namespace IdentityPractice.Repository
            var result= await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
             return result;
         }
+
+        public async Task SignOut()
+        {
+            await _signInManager.SignOutAsync();
+        }
     }
 }

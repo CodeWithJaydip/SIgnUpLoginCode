@@ -58,5 +58,11 @@ namespace IdentityPractice.Controllers
             }
             return View(model);
         }
+
+        public async Task<IActionResult> LogOut()
+        {
+            await _accountRepository.SignOut();
+            return RedirectToAction("Index", "Home");
+        }
     }
 }
